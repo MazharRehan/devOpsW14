@@ -1,0 +1,28 @@
+name: wf-dev-build
+on:
+  push:
+    branches:
+      - develop
+jobs:
+  dev-build-job:
+    runs-on: unbuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+      - name: Build Website with Parcel
+        run: |
+          npx parcel build "./src/index.html" --dist-dir "./dev" --public-url "./"
+      - name: Upload Build Artifact
+        uses: actions/upload-pages-artifact@v3
+
+  dev-deploy-job:
+    permissions:
+      pages: write
+      id-token: write
+    needs: dev-build-job
+    runs-on: unbuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+        with:
+          token: ${{github.token}}
