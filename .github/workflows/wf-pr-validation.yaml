@@ -1,26 +1,19 @@
-name: wf-dev-lint
+name: wf-pr-validation
 on:
   pull_request:
     branches:
       - develop
 jobs:
-  lint-job:
+  lint-build-job:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout repo
+      - name: repo checkout
         uses: actions/checkout@v4
-      - name: Lint HTML and CSS
+      - name: Lint HTML and CSS Rsc
         run: |
           npx htmlhint "**/*.html"
           npx stylelint "**/*.css"
-  build-job:
-
-    needs: lint-job
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout repo
-        uses: actions/checkout@v4
-      - name: Build With Parcel
+      - name: Try Build
         run: |
           npx parcel build "./src/index.html" --dist-dir "./dev" --public-url "./"
-  
+          
