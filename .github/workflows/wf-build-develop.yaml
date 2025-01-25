@@ -28,5 +28,5 @@ jobs:
       - name: deploy artifacts on GH Pages
         uses: actions/deploy-pages@v4
         with:
-          name: "build-artifact-develop"
+          artifact_name: "build-artifact-develop"
           token: ${{github.token}}
